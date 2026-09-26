@@ -8,17 +8,22 @@ async function getWorkout(id) {
     }
   );
 
-  if (!res.ok) throw new Error("Workout not found");
+  if (!res.ok) {
+    throw new Error("Workout not found");
+  }
 
   return res.json();
 }
 
 export default async function WorkoutDetails({ params }) {
-  const workout = await getWorkout(params.id);
+  // ✅ Next.js 16 fix
+  const { id } = await params;
+
+  const workout = await getWorkout(id);
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10 text-white">
-      <div className="grid lg:grid-cols-2 gap-10">
+    <section className="max-w-7xl mx-auto p-8 text-white">
+      <div className="grid lg:grid-cols-2 gap-8">
         <Image
           src={workout.image}
           alt={workout.name}
@@ -28,22 +33,8 @@ export default async function WorkoutDetails({ params }) {
         />
 
         <div>
-          <h1 className="text-4xl font-bold uppercase">{workout.name}</h1>
-
-          <p className="text-gray-300 mt-4">{workout.description}</p>
-
-          <div className="flex gap-2 mt-5">
-            {workout.category.map((tag) => (
-              <span
-                key={tag}
-                className="bg-lime-400 text-black px-3 py-1 rounded-full text-sm"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Add specs & buttons here */}
+          <h1 className="text-5xl font-bold uppercase">{workout.name}</h1>
+          <p className="mt-4 text-gray-300">{workout.description}</p>
         </div>
       </div>
     </section>
