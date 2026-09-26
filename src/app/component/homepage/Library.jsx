@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const getExercise = async () => {
   const res = await fetch("https://api.api-store.workers.dev/api/fitlog", {
@@ -30,15 +31,18 @@ const Library = async () => {
             <div className="bg-[#121A27] rounded-2xl overflow-hidden border border-[#243244] hover:border-lime-400 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
 
               {/* Image */}
-              <img
-                src={exercise.image}
-                alt={exercise.name}
-                className="w-full h-52 object-cover"
-              />
+              <div className="relative w-full h-52">
+                <Image
+                  src={exercise.image}
+                  alt={exercise.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width:768px) 100vw, 33vw"
+                />
+              </div>
 
               {/* Content */}
               <div className="p-4">
-                {/* Muscle Groups */}
                 <div className="flex flex-wrap gap-2 mb-3">
                   {exercise.muscleGroups.map((group) => (
                     <span
@@ -50,17 +54,14 @@ const Library = async () => {
                   ))}
                 </div>
 
-                {/* Name */}
-                <h3 className="text-white text-2xl font-extrabold uppercase leading-tight">
+                <h3 className="text-white text-2xl font-extrabold uppercase">
                   {exercise.name}
                 </h3>
 
-                {/* Equipment */}
                 <p className="text-gray-400 text-sm mt-2">
                   {exercise.equipment}
                 </p>
 
-                {/* Stats */}
                 <div className="flex items-center gap-4 mt-5 text-sm font-medium text-lime-400">
                   <span>🕒 {exercise.duration} min</span>
                   <span>🔥 {exercise.caloriesBurned} kcal</span>
